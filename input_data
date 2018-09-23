@@ -1,0 +1,23 @@
+<?php
+	
+    header('Content-Type: application/json');
+	if (mysqli_connect_errno($link))
+{
+    echo "Failed to connect to DataBase: " . mysqli_connect_error();
+}
+else
+{
+    $data_points = array();
+
+    
+    while($row = mysqli_fetch_array($result))
+    {        
+        $point = array("time"=> $row['timeStamp'] , "temp" => $row['temperature'] , "hum" => $row['humidity']);
+        
+        array_push($data_points, $point);        
+    }
+    
+    echo json_encode($data_points, JSON_NUMERIC_CHECK);
+     mysqli_close($link);
+}
+?>
